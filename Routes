@@ -1,0 +1,10 @@
+Define routes in routes/web.php:
+
+php
+Copy
+Edit
+use App\Http\Controllers\PostController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('posts', PostController::class);
+});
