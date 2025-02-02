@@ -1,0 +1,20 @@
+//Create Migration for Blog Posts
+php artisan make:migration create_posts_table
+
+//Define Schema in Migration (database/migrations/xxxx_xx_xx_create_posts_table.php
+public function up()
+{
+    Schema::create('posts', function (Blueprint $table) {
+        $table->id();
+        $table->string('title')->unique();
+        $table->text('description');
+        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        $table->timestamps();
+    });
+}
+
+//Run Migrations
+sh
+Copy
+Edit
+php artisan migrate
