@@ -1,0 +1,51 @@
+sh
+Copy
+Edit
+php artisan make:controller PostController --resource --model=Post
+Define CRUD Methods (PostController.php)
+Implement index, show, create, store, edit, update, and destroy
+Apply authentication to actions like store, update, and delete
+Use Carbon for formatted dates
+php
+Copy
+Edit
+use Carbon\Carbon;
+public function index()
+{
+    $posts = Post::latest()->paginate(10);
+    return view('posts.index', compact('posts'));
+}
+Validate title and description:
+php
+Copy
+Edit
+public function store(Request $request)
+{
+    $request->validate([
+        'title' => 'required|min:3|unique:posts,title',
+        'description' => 'required|min:10',
+    ]);
+
+    Post::create([
+        'title' => $request->title,
+        'description' => $request->description,
+        'user_id' => auth()->id(),
+    ]);
+
+    return redirect()->route('posts.index')->with('success', 'Post created successfully!');
+}
+Ensure unique title validation doesn't break when updating:
+php
+Copy
+Edit
+public function update(Request $request, Post $post)
+{
+    $request->validate([
+        'title' => 'required|min:3|unique:posts,title,'.$post->id,
+        'description' => 'required|min:10',
+    ]);
+
+    $post->update($request->all());
+
+    return redirect()->route('posts.index')->with('success', 'Post updated successfully!');
+}
