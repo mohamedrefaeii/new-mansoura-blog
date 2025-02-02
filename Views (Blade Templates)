@@ -1,0 +1,19 @@
+Index Page (Pagination & Formatting Dates)
+
+php
+Copy
+Edit
+@foreach($posts as $post)
+    <h2>{{ $post->title }}</h2>
+    <p>{{ $post->description }}</p>
+    <small>Created at: {{ $post->created_at->format('d M Y') }}</small>
+@endforeach
+{{ $posts->links() }}
+Show Page
+
+php
+Copy
+Edit
+<h1>{{ $post->title }}</h1>
+<p>{{ $post->description }}</p>
+<small>Created at: {{ $post->created_at->diffForHumans() }}</small>
